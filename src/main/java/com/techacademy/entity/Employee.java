@@ -2,10 +2,13 @@
 package com.techacademy.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -52,6 +55,10 @@ public class Employee {
     @Column(columnDefinition="VARCHAR(10)", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private List<Report> reportList;
+
 
     // パスワード
     @Column(length = 255, nullable = false)
