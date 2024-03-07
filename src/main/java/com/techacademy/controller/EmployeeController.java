@@ -100,7 +100,7 @@ public class EmployeeController {
         return "redirect:/employees";
     }
 
-    //従業員更新処理
+    //従業員更新画面
     @GetMapping(value = "/{code}/update")
     public String update(@PathVariable("code")String code,Employee emp, Model model) {
 
@@ -113,6 +113,7 @@ public class EmployeeController {
         return "employees/update";
     }
 
+    //　従業員更新処理
     @PostMapping(value = "/{code}/update")
     public String postUser(@PathVariable("code")String code,@Validated Employee employee, BindingResult res, Model model) {
 
