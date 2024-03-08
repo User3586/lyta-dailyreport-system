@@ -24,6 +24,7 @@ public class UserDetail implements UserDetails {
         this.authorities = authorities;
     }
 
+
     public Employee getEmployee() {
         return employee;
     }

@@ -49,6 +49,7 @@ public class ReportService {
         return ErrorKinds.SUCCESS;
     }
 
+
     // 日報更新
     @Transactional
     public ErrorKinds update(Report report, Integer id) {

@@ -25,6 +25,7 @@ import lombok.Data;
 @Table(name = "reports")
 @SQLRestriction("delete_flg = false")
 public class Report {
+
     public static enum Role {
         GENERAL("一般"), ADMIN("管理者");
 

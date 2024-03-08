@@ -37,11 +37,14 @@ public class ReportController {
 
     // 日報一覧画面
     @GetMapping
-    public String list(Model model) {
-
-        model.addAttribute("listSize", reportService.findAll().size());
-        model.addAttribute("reportList", reportService.findAll());
-
+    public String list(Model model, @AuthenticationPrincipal UserDetail userDetail) {
+        if (userDetail.getEmployee().getRole() == Employee.Role.ADMIN) {
+            model.addAttribute("listSize", reportService.findAll().size());
+            model.addAttribute("reportList", reportService.findAll());
+        }else {
+            model.addAttribute("listSize", reportService.findByEmployee(userDetail.getEmployee()).size());
+            model.addAttribute("reportList", reportService.findByEmployee(userDetail.getEmployee()));
+        }
         return "reports/list";
     }
 
@@ -102,7 +105,7 @@ public class ReportController {
 
     // 日報更新処理
     @PostMapping(value = "/{id}/update")
-    public String postUser(@PathVariable("id") Integer id,Model model, @Validated Report report,BindingResult res,
+    public String postUser(@PathVariable("id") Integer id, Model model, @Validated Report report, BindingResult res,
             @AuthenticationPrincipal UserDetail userDetail) {
 
         // 入力チェック
