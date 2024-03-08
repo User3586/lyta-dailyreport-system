@@ -28,12 +28,14 @@ public class ReportService {
     public ReportService(ReportRepository reportRepository, PasswordEncoder passwordEncoder) {
         this.reportRepository = reportRepository;
     }
+
     // 日報保存
     @Transactional
     public ErrorKinds save(Report report) {
 
-        List<Report> listReport = reportRepository.findByEmployeeAndReportDate(report.getEmployee(),report.getReportDate());
-        if(listReport.size()!=0) {
+        List<Report> listReport = reportRepository.findByEmployeeAndReportDate(report.getEmployee(),
+                report.getReportDate());
+        if (listReport.size() != 0) {
             return ErrorKinds.DATECHECK_ERROR;
         }
         LocalDateTime now = LocalDateTime.now();
@@ -47,18 +49,15 @@ public class ReportService {
         return ErrorKinds.SUCCESS;
     }
 
+    // 日報更新
     @Transactional
-    public ErrorKinds update(Report report,Integer id) {
-//        Report getReport = findById(id);
-//        getReport.setContent(report.getContent());
-//        getReport.setTitle(report.getContent());
-//        getReport.setReportDate(report.getReportDate());
-        List<Report> listReport = reportRepository.findByEmployeeAndReportDateAndIdNot(report.getEmployee(),report.getReportDate(),report.getId());
-        if(listReport.size()!=0) {
+    public ErrorKinds update(Report report, Integer id) {
+        List<Report> listReport = reportRepository.findByEmployeeAndReportDateAndIdNot(report.getEmployee(),
+                report.getReportDate(), report.getId());
+        if (listReport.size() != 0) {
             return ErrorKinds.DATECHECK_ERROR;
         }
         LocalDateTime now = LocalDateTime.now();
-
 
         report.setUpdatedAt(now);
 
@@ -78,6 +77,12 @@ public class ReportService {
         Optional<Report> option = reportRepository.findById(id);
         // 取得できなかった場合はnullを返す
         Report report = option.orElse(null);
+        return report;
+    }
+
+    public List<Report> findByEmployee(Employee employee) {
+
+        List<Report> report = reportRepository.findByEmployee(employee);
         return report;
     }
 

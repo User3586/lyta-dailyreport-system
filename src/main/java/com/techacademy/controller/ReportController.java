@@ -102,17 +102,17 @@ public class ReportController {
 
     // 日報更新処理
     @PostMapping(value = "/{id}/update")
-    public String postUser(@PathVariable("id") Integer id, @ModelAttribute Report report, Model model,
-            @AuthenticationPrincipal UserDetail userDetail, BindingResult res) {
+    public String postUser(@PathVariable("id") Integer id,Model model, @Validated Report report,BindingResult res,
+            @AuthenticationPrincipal UserDetail userDetail) {
 
         // 入力チェック
         if (res.hasErrors()) {
             return update(null, report, model, userDetail);
+
         }
         report.setEmployee(userDetail.getEmployee());
-//System.out.println("reportId"+report.getId());
-        ErrorKinds result = reportService.update(report, id);
 
+        ErrorKinds result = reportService.update(report, id);
         if (ErrorMessage.contains(result)) {
             model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
             return update(null, report, model, userDetail);
